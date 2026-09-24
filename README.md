@@ -40,14 +40,13 @@ Il dato grezzo di partenza proviene dal repository pubblico [oliviariccomi/gende
 
 | Cosa viene rimosso | Colonne usate | AUROC |
 |---|---|---|
-| niente | 1.388 | 1.000 |
-| le 120 colonne strutturalmente sesso-specifiche | 1.268 | 0.998 |
-| tutti i domini sesso-specifici (riproduttivo, HPV, sessuale, prostata, gravidanza) | 1.253 | 0.988 |
+| niente | 1.388 | **1.000** |
+| tutti i domini sesso-specifici (riproduttivo, HPV, sessuale, prostata, gravidanza): 135 colonne | 1.253 | **0.988** |
 | ogni colonna con divario di mancanza oltre 30 punti | 1.254 | 0.954 |
-| ogni colonna con divario oltre 10 punti | 1.221 | 0.857 |
+| ogni colonna con divario oltre 10 punti | 1.221 | **0.857** |
 | ogni colonna con divario oltre 5 punti | 1.125 | 0.732 |
 | ogni colonna con divario oltre 2 punti | 970 | 0.586 |
-| tutto tranne laboratorio ed esame fisico | 110 | 0.575 |
+| tutto tranne laboratorio ed esame fisico | 70 | **0.575** |
 
 Valori ottenuti con `random_state=42` e ripartizione 70/30 stratificata.
 
