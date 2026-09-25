@@ -50,6 +50,32 @@ Il dato grezzo di partenza proviene dal repository pubblico [oliviariccomi/gende
 
 Valori ottenuti con `random_state=42` e ripartizione 70/30 stratificata.
 
+## Grafici della lezione
+
+`figure/` contiene i sei grafici inseriti nelle slide, in PNG a 300 dpi gia dimensionati per il formato 16:9 del template, e il codice che li genera:
+
+```
+cd figure
+python genera_figure.py
+```
+
+| File | Slide | Cosa mostra |
+|---|---|---|
+| `F5B_intercetta.png` | 5 | Come si legge l'intercetta di calibrazione |
+| `F5A_stesso_ordine.png` | 5 bis | Stesso AUROC, calibrazione diversa |
+| `F7_tre_modi_di_mancare.png` | 7 | MCAR, MAR, MNAR e cosa succede alla media |
+| `F13_quanto_mutilare.png` | 13 bis | La scala della dimostrazione dal vivo |
+| `F17_impossibilita.png` | 17 bis | Stessa sensibilita, valore predittivo diverso a ogni soglia |
+| `F21_auroc_fermo_calibrazione_no.png` | 21 | AUROC fermo, calibrazione in movimento (dati reali) |
+
+Colori: blu `#2a78d6` e oro `#b07a0a`, verificati per la leggibilita da parte di chi ha difetti nella visione dei colori. L'oro indica sempre il gruppo trattato peggio.
+
+### F21 e l'intercetta di calibrazione
+
+F21 usa i dati di `figure/dati/`, prodotti rieseguendo il caso 1 del workshop con `figure/dati/riesegui_caso1_workshop.py` (circa due minuti; scarica da solo notebook e dati). La riesecuzione e deterministica e riproduce i CSV al bit.
+
+Il notebook del workshop calcola l'intercetta di calibrazione con la pendenza libera. I CSV riportano entrambe le versioni: `cal_int_notebook_*` (come nel workshop) e `citl_*` (definizione standard, pendenza fissata a 1), piu la pendenza `slope_*`. F21 usa `citl_*`.
+
 ## Riferimenti della lezione
 
 - Agniel D, Kohane IS, Weber GM. *Biases in electronic health record data due to processes within the healthcare system*. BMJ 2018.
