@@ -81,6 +81,15 @@ def s02():
     fig.text(0.03, 0.93, "COSA DICE IL REPORT", fontsize=9.5, fontweight="bold", color=INK2, va="top")
     fig.text(0.03, 0.78, "0,92", fontsize=40, fontweight="bold", color=NAVY_SLIDE, va="top")
     fig.text(0.03, 0.54, "AUROC su tutti\ni pazienti", fontsize=10.5, color=INK2, va="top", linespacing=1.15)
+    # la scala per leggerlo: da 0,5 (una moneta) a 1 (perfetto)
+    x0, x1, ys = 0.035, 0.32, 0.31
+    xv = x0 + (0.92 - 0.5) / 0.5 * (x1 - x0)
+    fig.add_artist(plt.Line2D([x0, x1], [ys, ys], color=GRIGIO_CH, lw=4, solid_capstyle="round"))
+    fig.add_artist(plt.Line2D([x0, xv], [ys, ys], color=NAVY_SLIDE, lw=4, solid_capstyle="round"))
+    fig.add_artist(plt.Line2D([xv], [ys], marker="o", ms=8, color=NAVY_SLIDE, mec="white", mew=1.5))
+    for x, num, parola, ha in ((x0, "0,5", "una moneta", "left"), (x1, "1", "perfetto", "right")):
+        fig.text(x, ys - 0.045, num, ha=ha, va="top", fontsize=9.5, color=INK, fontweight="bold")
+        fig.text(x, ys - 0.105, parola, ha=ha, va="top", fontsize=9.5, color=INK2)
     fig.add_artist(plt.Line2D([0.36, 0.36], [0.12, 0.93], color=GRIGIO_CH, lw=1.2))
     fig.text(0.41, 0.93, "COSA SUCCEDE IN REPARTO", fontsize=9.5, fontweight="bold", color=INK2, va="top")
     fig.text(0.41, 0.84, "Diagnosi mancate ogni 100 malati", fontsize=10.5, color=INK2, va="top")
