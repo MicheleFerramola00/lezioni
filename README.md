@@ -76,12 +76,46 @@ F21 usa i dati di `figure/dati/`, prodotti rieseguendo il caso 1 del workshop co
 
 Il notebook del workshop calcola l'intercetta di calibrazione con la pendenza libera. I CSV riportano entrambe le versioni: `cal_int_notebook_*` (come nel workshop) e `citl_*` (definizione standard, pendenza fissata a 1), piu la pendenza `slope_*`. F21 usa `citl_*`.
 
+### Immagini delle slide
+
+Le altre immagini del mazzo (prefisso `S`, piu `QR_repo.png`) si rigenerano con:
+
+```
+cd figure
+python genera_immagini_slide.py
+```
+
+Il file NHANES del workshop (`figure/dati/NHANES_2013_2014_master.csv`) non e nel repository: lo script lo scarica da solo se manca. Le immagini `illustrative` e `simulate` lo dichiarano in basso; le altre usano dati reali o i numeri pubblicati negli articoli citati.
+
+| File | Slide | Cosa mostra | Fonte |
+|---|---|---|---|
+| `S02_report_e_reparto.png` | 2 | Il report dice 0,92, il reparto vede un gruppo | illustrativo |
+| `S03_mappa_tappe.png`, `S_mappa_tappa1..4.png` | 3 e divisori | Le quattro tappe della lezione | |
+| `S08_imbuto.png` | 8 | Chi arriva nel dataset | illustrativo |
+| `S09_casi_completi.png` | 9 | Chi resta dopo il filtro dei casi completi | NHANES 2013-2014 |
+| `S10_imputazione.png` | 10 | Cosa fa l'imputazione a un gruppo | simulato |
+| `S11_agniel.png` | 11 | Il momento della richiesta predice meglio del risultato | Agniel et al. 2018 |
+| `S12_paziente_mancante.png` | 12 | In imaging manca un paziente intero | radiografia CC0 |
+| `S13_matrice_buchi.png`, `QR_repo.png` | 13 | Il file della dimostrazione: solo buchi | NHANES 2013-2014 |
+| `S16_tre_equita.png` | 16 | Tre richieste di equita | |
+| `S20_regola_unica.png` | 20 | Una regola sola per due gruppi | simulato |
+| `S22_sottodiagnosi.png` | 22 | Sottodiagnosi per sottogruppo | Seyyed-Kalantari et al. 2021 |
+| `S23_due_centri.png` | 23 | Stesso numero di persone, due popolazioni | NHANES 2013-2014 |
+| `S24_marcatore.png` | 24 | Il marcatore del portatile | ricostruzione su radiografia CC0 |
+| `S25_degradazione.png` | 25 | Etnia riconosciuta su immagini degradate | Gichoya et al., preprint |
+| `S27_taratura.png` | 27 | Una soglia per ogni popolazione | curve teoriche |
+| `S30_aries.png` | 30 | Tumori trovati ogni 1.000 donne, radiologi e IA | ARIES 2025 |
+| `S31_deriva.png` | 31 | La deriva dopo il nuovo apparecchio | illustrativo |
+
+La radiografia `figure/dati/radiografia_torace_haggstrom_cc0.jpg` e di Mikael Häggström, in pubblico dominio (CC0), da Wikimedia Commons.
+
 ## Riferimenti della lezione
 
-- Agniel D, Kohane IS, Weber GM. *Biases in electronic health record data due to processes within the healthcare system*. BMJ 2018.
+- Agniel D, Kohane IS, Weber GM. *Biases in electronic health record data due to processes within the healthcare system: retrospective observational study*. BMJ 2018;361:k1479.
 - Seyyed-Kalantari L et al. *Underdiagnosis bias of artificial intelligence algorithms applied to chest radiographs in under-served patient populations*. Nature Medicine 2021.
 - Zech JR et al. *Variable generalization performance of a deep learning model to detect pneumonia in chest radiographs*. PLOS Medicine 2018.
-- Gichoya JW et al. *AI recognition of patient race in medical imaging: a modelling study*. Lancet Digital Health 2022.
+- Gichoya JW et al. *AI recognition of patient race in medical imaging: a modelling study*. Lancet Digital Health 2022. Preprint: arXiv 2107.10356.
+- Oberije C et al. *Assessing artificial intelligence in breast screening with stratified results on 306 839 mammograms across geographic regions, age, breast density and ethnicity: the ARIES study*. BMJ Health & Care Informatics 2025;32:e101318.
 - Larrazabal AJ et al. *Gender imbalance in medical imaging datasets produces biased classifiers for computer-aided diagnosis*. PNAS 2020.
 - *FUTURE-AI: international consensus guideline for trustworthy and deployable artificial intelligence in healthcare*. BMJ 2025.
 - *Tackling algorithmic bias and promoting transparency in health datasets: the STANDING Together consensus recommendations*. Lancet Digital Health 2024.
