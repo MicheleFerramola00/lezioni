@@ -226,8 +226,8 @@ def dati_f7(seed=3, n=10000, quota=0.40):
     return val, manca, corretta
 
 
-def f7():
-    """Tre modi di mancare. Slide intera."""
+def f7(con_titoli=True):
+    """Tre modi di mancare. Slide intera. Con con_titoli=False i titoli dei pannelli stanno sulla slide come testo."""
     val, manca, corretta = dati_f7()
     xs = np.linspace(40, 160, 400)
     kde = lambda v: gaussian_kde(v, bw_method=0.25)(xs) * len(v)
@@ -263,8 +263,9 @@ def f7():
         ax.set_xlim(45, 155); ax.set_ylim(0, top * 1.28)
         ax.set_yticks([]); ax.spines["left"].set_visible(False); ax.grid(False)
         ax.set_xticks([70, 100, 130])
-        ax.set_title(titolo, fontsize=12.5)
-        sottotitolo(ax, sotto)
+        if con_titoli:
+            ax.set_title(titolo, fontsize=12.5)
+            sottotitolo(ax, sotto)
 
     maniglie = [plt.Rectangle((0, 0), 1, 1, fc=GRIGIO_CH, ec=GRIGIO, lw=1),
                 plt.Rectangle((0, 0), 1, 1, fc=matplotlib.colors.to_rgba(BLU, 0.16), ec=BLU, lw=1.6)]
@@ -272,7 +273,7 @@ def f7():
                bbox_to_anchor=(0.995, 0.995), ncol=2, handlelength=1.4, columnspacing=1.6)
     fig.text(0.5, 0.05, "Valore dell'esame", ha="center", va="bottom", fontsize=11, color=INK2)
     nota(fig, "Dati simulati · 10.000 pazienti · manca il 40% in ogni pannello")
-    salva(fig, "F7_tre_modi_di_mancare")
+    salva(fig, "F7_tre_modi_di_mancare" + ("" if con_titoli else "_senza_titoli"))
     return val.mean(), {k: val[~m].mean() for k, m in manca.items()}, corretta
 
 
@@ -431,6 +432,7 @@ if __name__ == "__main__":
     vera, oss, corr = f7()
     print(f"    F7 media vera {vera:.1f}  osservate " + "  ".join(f"{k} {v:.1f}" for k, v in oss.items())
           + f"  corretta per eta {corr:.1f}")
+    f7(con_titoli=False)
     f13()
     s0, a, b = f17()
     print(f"    F17 sensibilita {s0:.3f}  VPP A {a:.3f}  B {b:.3f}")
