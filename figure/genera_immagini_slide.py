@@ -410,7 +410,7 @@ SK = [  # Seyyed-Kalantari et al. 2021, MIMIC-CXR: FPR della classe 'No Finding'
 
 
 def s22():
-    fig = plt.figure(figsize=(4.5, 2.8))
+    fig = plt.figure(figsize=(4.5, 3.3))
     titolo_fig(fig, "Sottodiagnosi per sottogruppo", "Pazienti con un reperto a cui il sistema dice «nessun reperto»",
                y=0.965)
     ax = fig.add_axes([0.46, 0.13, 0.46, 0.66])
@@ -538,13 +538,13 @@ def s25():
     px4 = base.resize((4, 4), Image.BOX).resize((512, 512), Image.NEAREST)
     pannelli = [(base, "Originale", "oltre 0,95"), (rum, "Con rumore", "0,74–0,80"),
                 (sfo, "Sfocata", "0,64–0,72"), (px4, "4 × 4 pixel", "sopra il caso")]
-    fig = plt.figure(figsize=(4.5, 2.8))
+    fig = plt.figure(figsize=(4.5, 3.3))
     titolo_fig(fig, "Il modello riconosce l'etnia anche così", "AUROC dei modelli sulle immagini degradate", y=0.965)
     for k, (im, t, v) in enumerate(pannelli):
-        ax = fig.add_axes([0.03 + k * 0.245, 0.24, 0.21, 0.46])
+        ax = fig.add_axes([0.03 + k * 0.245, 0.285, 0.21, 0.39])
         ax.imshow(im, cmap="gray", aspect="auto", vmin=0, vmax=255); cornice(ax, INK2, lw=0.8)
-        fig.text(0.03 + k * 0.245 + 0.105, 0.75, t, ha="center", fontsize=9.8, fontweight="bold", color=INK)
-        fig.text(0.03 + k * 0.245 + 0.105, 0.15, v, ha="center", fontsize=10.5, color=INK,
+        fig.text(0.03 + k * 0.245 + 0.105, 0.715, t, ha="center", fontsize=9.8, fontweight="bold", color=INK)
+        fig.text(0.03 + k * 0.245 + 0.105, 0.20, v, ha="center", fontsize=10.5, color=INK,
                  fontweight="bold")
     nota(fig, "Gichoya et al., preprint arXiv 2107.10356 · radiografia: M. Häggström, CC0", lato="sinistra")
     salva(fig, "S25_degradazione")
@@ -559,7 +559,7 @@ def s27():
     obiettivo = 0.5
     ta = t[np.argmax(vpp(0.20) >= obiettivo)]; tb = t[np.argmax(vpp(0.05) >= obiettivo)]
     sa, sb = 1 - norm.cdf(ta - mu), 1 - norm.cdf(tb - mu)
-    fig = plt.figure(figsize=(4.5, 2.8))
+    fig = plt.figure(figsize=(4.5, 3.3))
     titolo_fig(fig, "Una soglia per ogni popolazione",
                "Obiettivo: almeno un positivo su due davvero malato", y=0.965)
     ax = fig.add_axes([0.11, 0.2, 0.84, 0.52])
@@ -598,7 +598,7 @@ ARIES = [  # Oberije et al., BMJ Health Care Inform 2025, tabella 3: tumori trov
 
 
 def s30():
-    fig = plt.figure(figsize=(4.5, 2.8))
+    fig = plt.figure(figsize=(4.5, 3.3))
     titolo_fig(fig, "Tumori trovati ogni 1.000 donne", None, y=0.965)
     ax = fig.add_axes([0.37, 0.12, 0.58, 0.66])
     y, ys, prec = 0, [], None
@@ -629,7 +629,7 @@ def s31(seed=8):
     a = 0.86 + rng.normal(0, 0.012, 24)
     b = np.where(mesi <= 12, 0.85, 0.85 - 0.03 * np.minimum(mesi - 12, 6)) + rng.normal(0, 0.014, 24)
     tutti = 0.85 * a + 0.15 * b
-    fig = plt.figure(figsize=(4.5, 2.8))
+    fig = plt.figure(figsize=(4.5, 3.3))
     titolo_fig(fig, "Il sistema era equo. Poi", "Sensibilità mese per mese: la media non vede il gruppo B", y=0.965)
     ax = fig.add_axes([0.12, 0.17, 0.68, 0.56])
     ax.axhline(0.75, color=INK2, lw=1.1, ls=(0, (4, 3)))
