@@ -6,11 +6,15 @@ Michele Ferramola | 1,5 ore | Modulo 2, Evidence-Based Medicine e Valutazione Me
 
 ---
 
-## Dimostrazione dal vivo
+## Dimostrazioni dal vivo
+
+Due notebook, entrambi autosufficienti: scaricano da soli i dati e girano in Colab senza configurazione.
+
+### 1. Il dato che manca
 
 [![Apri in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MicheleFerramola00/lezioni/blob/caf-unilink-m2.4/notebook/mancanza_e_fairness.ipynb)
 
-`notebook/mancanza_e_fairness.ipynb` | durata in aula: **5 minuti**
+`notebook/mancanza_e_fairness.ipynb` | durata in aula: **5 minuti** per la parte 1, **3 minuti** per la parte 2
 
 Si colloca nel blocco *Gestione dei missing data* e dimostra una cosa sola:
 
@@ -26,6 +30,26 @@ Il percorso della dimostrazione:
 
 Non serve alcuna configurazione: il notebook scarica il dato da questo branch ed e autosufficiente.
 
+**Parte 2, le tre strategie all'opera.** Su una misura reale, la pressione sistolica, il dato viene tolto a circa il 40% dei pazienti in tre modi (MCAR, MAR, MNAR) e si confrontano le strategie delle slide: tenere solo chi ha tutto, stimare il valore mancante da eta e sesso, usare la mancanza come informazione in un modello che passa da un ospedale a un altro.
+
+### 2. Senza guardare i polmoni
+
+[![Apri in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MicheleFerramola00/lezioni/blob/caf-unilink-m2.4/notebook/radiografie_senza_immagini.ipynb)
+
+`notebook/radiografie_senza_immagini.ipynb` | durata in aula: **5 minuti**
+
+Si colloca nel caso 2 dei casi studio, *Le condizioni di acquisizione*, e dimostra una cosa sola:
+
+> Il modo in cui e stata fatta la radiografia riconosce il reperto, senza guardare l'immagine.
+
+Il percorso della dimostrazione:
+
+1. Si caricano i metadati di NIH ChestX-ray14 (112.120 radiografie, 30.805 pazienti): eta, sesso, proiezione, dimensioni e risoluzione dell'immagine. Nessuna immagine.
+2. La lastra a letto (AP) si fa ai pazienti piu gravi: e AP l'88% delle radiografie con edema, il 35% di quelle senza reperti.
+3. Un modello cerca l'edema guardando solo la proiezione: AUROC 0.756 su pazienti che non ha mai visto; con eta, sesso e apparecchio 0.787.
+4. Per gruppo la scorciatoia rende in modo diverso, e sopra i 70 anni poggia su 34 casi.
+5. Il valore predittivo resta al 4.8%, perche l'edema riguarda il 2.1% delle radiografie.
+
 ## Dati
 
 `dati/mancanza_nhanes_adulti.parquet` | 1,8 MB | 6.113 righe, 1.810 colonne
@@ -34,9 +58,17 @@ Derivato da **NHANES 2013-2014**, indagine pubblica statunitense su salute e nut
 
 Il file contiene **esclusivamente** la maschera di mancanza (`True` se il valore e assente) piu la colonna `sesso_F` usata come bersaglio. Nessun valore clinico, nessun identificativo. Questo non e solo una cautela: e parte dell'argomento della lezione.
 
-Il dato grezzo di partenza proviene dal repository pubblico [oliviariccomi/gender-bias-analysis](https://github.com/oliviariccomi/gender-bias-analysis), a sua volta costruito sui file pubblici NHANES dei CDC.
+`dati/valori_nhanes_adulti.parquet` | 6.113 righe, 7 colonne
+
+Gli stessi adulti, nello stesso ordine, con pochi valori clinici per la parte 2 della dimostrazione: eta, sesso, pressione sistolica (media delle letture), BMI, glicemia, HbA1c, diabete dichiarato. NHANES e di pubblico dominio.
+
+**NIH ChestX-ray14** (NIH Clinical Center, https://nihcc.app.box.com/v/ChestXray-NIHCC): il notebook sulle radiografie scarica solo il file dei metadati, `Data_Entry_2017_v2020.csv`, da una copia pubblica su Hugging Face. Uso libero citando Wang X. et al., *ChestX-ray8*, IEEE CVPR 2017.
+
+Il dato grezzo di partenza dei due file NHANES proviene dal repository pubblico [oliviariccomi/gender-bias-analysis](https://github.com/oliviariccomi/gender-bias-analysis), a sua volta costruito sui file pubblici NHANES dei CDC.
 
 ## Risultati attesi
+
+### Il dato che manca, parte 1
 
 | Cosa viene rimosso | Colonne usate | AUROC |
 |---|---|---|
@@ -49,6 +81,41 @@ Il dato grezzo di partenza proviene dal repository pubblico [oliviariccomi/gende
 | tutto tranne laboratorio ed esame fisico | 70 | **0.575** |
 
 Valori ottenuti con `random_state=42` e ripartizione 70/30 stratificata.
+
+### Il dato che manca, parte 2
+
+Errore sulla media della pressione sistolica (vera: 122.7 mmHg su 5.712 adulti), in mmHg:
+
+| Come manca | Quanti mancano | Casi completi | Imputazione con eta e sesso |
+|---|---|---|---|
+| MCAR, per caso | 40% | +0.1 | +0.1 |
+| MAR, ai giovani | 42% | +2.6 | -0.2 |
+| MNAR, a chi ha la pressione alta | 37% | -4.8 | -4.0 |
+
+Riconoscere il diabete con un modello allenato nell'ospedale A (AUROC):
+
+| Il modello | Ospedale A | Ospedale B |
+|---|---|---|
+| usa la mancanza della glicemia come informazione | 0.906 | 0.816 |
+| stima la glicemia mancante da eta e BMI | 0.849 | 0.858 |
+
+Nell'ospedale A la glicemia si chiede a chi e sospetto di diabete, nel B a tutti sopra i 50 anni. Tutto con `numpy.random.default_rng(0)`.
+
+### Senza guardare i polmoni
+
+Verifica su 33.082 radiografie di 9.242 pazienti mai visti in addestramento (691 con edema), `GroupShuffleSplit(test_size=0.3, random_state=0)`:
+
+| Chi | Casi di edema | AUROC della sola proiezione |
+|---|---|---|
+| tutti | 691 | 0.756 |
+| donne | 351 | 0.77 |
+| uomini | 340 | 0.74 |
+| sotto i 30 anni | 113 | 0.75 |
+| 30-49 anni | 238 | 0.79 |
+| 50-69 anni | 306 | 0.74 |
+| 70 anni e oltre | 34 | 0.69 |
+
+Con proiezione, eta, sesso e apparecchio (`HistGradientBoostingClassifier`, `random_state=0`): 0.787. Valore predittivo della sola proiezione: 4.8%, con l'edema nel 2.1% delle radiografie.
 
 ## Grafici della lezione
 
@@ -91,6 +158,7 @@ Il file NHANES del workshop (`figure/dati/NHANES_2013_2014_master.csv`) non e ne
 |---|---|---|---|
 | `S02_report_e_reparto.png` | 2 | Il report dice 0,92, il reparto vede un gruppo | illustrativo |
 | `S03_mappa_tappe.png`, `S_mappa_tappa1..4.png` | 3 e divisori | Le quattro tappe della lezione | |
+| `S06B_gruppo_sanguigno.png` | 6 bis | Il gruppo sanguigno e chi lo ha misurato | illustrativo |
 | `S08_imbuto.png` | 8 | Chi arriva nel dataset | illustrativo |
 | `S09_casi_completi.png` | 9 | Chi resta dopo il filtro dei casi completi | NHANES 2013-2014 |
 | `S10_imputazione.png` | 10 | Cosa fa l'imputazione a un gruppo | simulato |
@@ -102,6 +170,7 @@ Il file NHANES del workshop (`figure/dati/NHANES_2013_2014_master.csv`) non e ne
 | `S22_sottodiagnosi.png` | 22 | Sottodiagnosi per sottogruppo | Seyyed-Kalantari et al. 2021 |
 | `S23_due_centri.png` | 23 | Stesso numero di persone, due popolazioni | NHANES 2013-2014 |
 | `S24_marcatore.png` | 24 | Il marcatore del portatile | ricostruzione su radiografia CC0 |
+| `S24B_lastra_a_letto.png` | 24 bis | Radiografie fatte a letto, per reperto | NIH ChestX-ray14 |
 | `S25_degradazione.png` | 25 | Etnia riconosciuta su immagini degradate | Gichoya et al., preprint |
 | `S27_taratura.png` | 27 | Una soglia per ogni popolazione | curve teoriche |
 | `S30_aries.png` | 30 | Tumori trovati ogni 1.000 donne, radiologi e IA | ARIES 2025 |
@@ -116,6 +185,7 @@ La radiografia `figure/dati/radiografia_torace_haggstrom_cc0.jpg` e di Mikael HÃ
 - Zech JR et al. *Variable generalization performance of a deep learning model to detect pneumonia in chest radiographs*. PLOS Medicine 2018.
 - Gichoya JW et al. *AI recognition of patient race in medical imaging: a modelling study*. Lancet Digital Health 2022. Preprint: arXiv 2107.10356.
 - Oberije C et al. *Assessing artificial intelligence in breast screening with stratified results on 306 839 mammograms across geographic regions, age, breast density and ethnicity: the ARIES study*. BMJ Health & Care Informatics 2025;32:e101318.
+- Wang X et al. *ChestX-ray8: Hospital-scale chest X-ray database and benchmarks on weakly-supervised classification and localization of common thorax diseases*. IEEE CVPR 2017.
 - Larrazabal AJ et al. *Gender imbalance in medical imaging datasets produces biased classifiers for computer-aided diagnosis*. PNAS 2020.
 - *FUTURE-AI: international consensus guideline for trustworthy and deployable artificial intelligence in healthcare*. BMJ 2025.
 - *Tackling algorithmic bias and promoting transparency in health datasets: the STANDING Together consensus recommendations*. Lancet Digital Health 2024.
