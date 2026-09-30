@@ -3,3 +3,5 @@ figure/dati/NHANES_2013_2014_master.csv
 figure/dati/Fase_3_4_Modelli_Performance_Gap.ipynb
 figure/dati/archive/
 __pycache__/
+# metadati NIH ChestX-ray14, scaricati da genera_immagini_slide.py
+figure/dati/Data_Entry_2017_v2020.csv

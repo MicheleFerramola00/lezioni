@@ -9,6 +9,8 @@ Stesso stile e stessi colori di genera_figure.py. Dati:
   - Agniel, Kohane, Weber, BMJ 2018: numeri citati testualmente dai risultati
   - Gichoya et al., preprint arXiv 2107.10356: AUC sulle immagini degradate
   - radiografia del torace di M. Haggstrom, CC0 (Wikimedia Commons)
+  - NIH ChestX-ray14 (NIH Clinical Center, https://nihcc.app.box.com/v/ChestXray-NIHCC): metadati
+    Data_Entry_2017_v2020.csv, scaricati se mancano; uso libero citando Wang et al., CVPR 2017
 Le immagini marcate "illustrativo" usano numeri inventati per spiegare un meccanismo, e lo dichiarano.
 """
 import os
@@ -51,6 +53,14 @@ def nhanes():
                                    "data/raw_dataset/NHANES_2013_2014_master.csv", f)
     d = pd.read_csv(f, low_memory=False)
     return d[d.age_years >= 18].copy()
+
+
+def cxr14():
+    f = QUI / "dati" / "Data_Entry_2017_v2020.csv"
+    if not f.exists():
+        urllib.request.urlretrieve("https://huggingface.co/datasets/alkzar90/NIH-Chest-X-ray-dataset/resolve/main/"
+                                   "data/Data_Entry_2017_v2020.csv", f)
+    return pd.read_csv(f)
 
 
 def titolo_fig(fig, titolo, sotto=None, y=0.955):
@@ -109,7 +119,7 @@ def s02():
 
 # ---------------------------------------------------------------- mappa delle tappe
 TAPPE = [("Il dato che manca", "25 min · con demo dal vivo"), ("Quale equità", "10 min"),
-         ("Tre casi nell'imaging", "30 min"), ("Cosa si chiede in gara", "10 min")]
+         ("Tre casi nell'imaging", "30 min · con demo dal vivo"), ("Cosa si chiede in gara", "10 min")]
 
 
 def mappa(attiva=None, scura=False):
@@ -488,6 +498,37 @@ def s24():
     salva(fig, "S24_marcatore")
 
 
+# ---------------------------------------------------------------- slide 24 bis
+def s24b():
+    """Come è stata fatta la lastra: quota di radiografie fatte a letto (AP) per reperto, NIH ChestX-ray14."""
+    d = cxr14()
+    ap = d["View Position"].eq("AP")
+    voci = [("Edema", "edema"), ("Consolidation", "consolidamento"), ("Pneumonia", "polmonite"),
+            ("Effusion", "versamento pleurico")]
+    righe = [(it, ap[d["Finding Labels"].str.contains(en)].mean()) for en, it in voci]
+    righe.append(("nessun reperto", ap[d["Finding Labels"].eq("No Finding")].mean()))
+    fig = plt.figure(figsize=(4.45, 2.38))
+    fig.text(0.03, 0.965, "Come è stata fatta la lastra", fontsize=12, fontweight="bold", color=INK, va="top")
+    fig.text(0.03, 0.865, "Quota di radiografie fatte a letto (AP), per reperto", fontsize=9.8, color=INK2, va="top")
+    ax = fig.add_axes([0.36, 0.13, 0.55, 0.62])
+    ys = list(range(len(righe)))[::-1]
+    for (nome, v), y in zip(righe, ys):
+        colore = ORO if nome == "edema" else (GRIGIO if nome == "nessun reperto" else BLU)
+        ax.barh(y, 1, height=0.56, color=GRIGIO_CH)
+        ax.barh(y, v, height=0.56, color=colore)
+        ax.text(v + 0.02, y, f"{v * 100:.0f}%", va="center", fontsize=10, color=INK,
+                fontweight="bold" if nome == "edema" else "normal")
+        ax.text(-0.03, y, nome, transform=ax.get_yaxis_transform(), ha="right", va="center", fontsize=10,
+                color=INK, fontweight="bold" if nome == "edema" else "normal")
+    ax.set_xlim(0, 1.12); ax.set_ylim(-0.6, len(righe) - 0.4)
+    ax.set_xticks([]); ax.set_yticks([]); ax.grid(False)
+    for s in ax.spines.values():
+        s.set_visible(False)
+    nota(fig, "NIH ChestX-ray14 · 112.120 radiografie · reperti estratti dai referti")
+    salva(fig, "S24B_lastra_a_letto")
+    return righe
+
+
 # ---------------------------------------------------------------- slide 25
 def s25():
     base = radiografia(512)
@@ -613,6 +654,6 @@ if __name__ == "__main__":
     for lab, v in s09():
         print(f"    S09 {lab}: {v:.3f}")
     print("    S10 media vera {:.1f} dopo {:.1f} mancanti {:.0%}".format(*s10()))
-    s11(); s12(); s13(); qr(); s16(); s20(); s22(); s23(); s24(); s25()
+    s11(); s12(); s13(); qr(); s16(); s20(); s22(); s23(); s24(); s24b(); s25()
     print("    S27 sensibilita tarata su A {:.2f}, su B {:.2f}".format(*s27()))
     s30(); s31()
