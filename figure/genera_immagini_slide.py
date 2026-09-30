@@ -141,6 +141,35 @@ def mappe():
         fig = mappa(attiva=k, scura=True); salva(fig, f"S_mappa_tappa{k}", trasparente=True)
 
 
+# ---------------------------------------------------------------- slide 6 bis
+def s06b():
+    """Il gruppo sanguigno e chi lo ha misurato: numeri illustrativi, gli stessi del workshop Sanidays."""
+    fasce = ["18-29 anni", "30-49 anni", "50-69 anni", "70 e oltre"]
+    pannelli = (("Nella popolazione", "quota con gruppo 0", {"uomini": [45] * 4, "donne": [45] * 4}),
+                ("Nel dataset", "quota con il gruppo sanguigno registrato",
+                 {"uomini": [16, 37, 55, 56], "donne": [56, 69, 56, 59]}))
+    fig = plt.figure(figsize=(4.5, 3.3))
+    maniglie = [plt.Rectangle((0, 0), 1, 1, color=c) for c in (BLU, ORO)]
+    fig.legend(maniglie, ["uomini", "donne"], loc="upper right", bbox_to_anchor=(0.97, 0.995), ncol=2,
+               handlelength=1.0, handleheight=0.9, columnspacing=1.2, fontsize=10)
+    for k, (titolo, sotto, dati) in enumerate(pannelli):
+        ax = fig.add_axes([0.05, 0.555 - k * 0.405, 0.9, 0.235])
+        for j, (g, c) in enumerate((("uomini", BLU), ("donne", ORO))):
+            xs = [i + (j - 0.5) * 0.34 for i in range(4)]
+            ax.bar(xs, dati[g], width=0.3, color=c)
+            if k == 1:
+                for x, v in zip(xs, dati[g]):
+                    ax.text(x, v + 3, f"{v}%", ha="center", va="bottom", fontsize=9, color=INK)
+        if k == 0:
+            ax.text(3.62, 47, "45% in ogni gruppo", ha="right", va="bottom", fontsize=9.5, color=INK)
+        ax.set_ylim(0, 100); ax.set_yticks([]); ax.spines["left"].set_visible(False); ax.grid(False)
+        ax.set_xlim(-0.6, 3.6); ax.set_xticks(range(4)); ax.set_xticklabels(fasce if k == 1 else [])
+        ax.text(0, 1.08, titolo, transform=ax.transAxes, fontsize=11.5, fontweight="bold", color=INK)
+        ax.text(1, 1.08, sotto, transform=ax.transAxes, fontsize=10, color=INK2, ha="right")
+    nota(fig, "Esempio illustrativo")
+    salva(fig, "S06B_gruppo_sanguigno")
+
+
 # ---------------------------------------------------------------- slide 8
 def s08():
     fig = plt.figure(figsize=(4.5, 3.3))
@@ -580,7 +609,7 @@ def s31(seed=8):
 
 if __name__ == "__main__":
     print("Genero in", OUT)
-    s02(); mappe(); s08()
+    s02(); mappe(); s06b(); s08()
     for lab, v in s09():
         print(f"    S09 {lab}: {v:.3f}")
     print("    S10 media vera {:.1f} dopo {:.1f} mancanti {:.0%}".format(*s10()))
