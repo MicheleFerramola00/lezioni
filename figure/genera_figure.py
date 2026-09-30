@@ -135,6 +135,7 @@ def f5b():
     ax.set_ylabel("Rischio vero")
     ax.set_title("Come si legge l'intercetta")
     sottotitolo(ax, "Stesso rischio dichiarato, tre realtà diverse")
+    nota(fig, "Curve teoriche")
     salva(fig, "F5B_intercetta")
 
 
@@ -367,7 +368,7 @@ def f17():
     sottotitolo(axv, "Valore predittivo: diverso a ogni soglia")
 
     legenda(fig, [("Gruppo A · malattia nel 20%", BLU), ("Gruppo B · malattia nel 5%", ORO)])
-    nota(fig, "Stesso sistema per i due gruppi · cambia solo quanto è frequente la malattia")
+    nota(fig, "Esempio costruito · stesso sistema per i due gruppi, cambia solo quanto è frequente la malattia")
     salva(fig, "F17_impossibilita")
     return s0, vA0, vB0
 

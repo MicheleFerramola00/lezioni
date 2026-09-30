@@ -331,7 +331,7 @@ def s13():
     righe = np.concatenate([rng.choice(np.where(y == 1)[0], 40, replace=False), rng.choice(np.where(y == 0)[0], 40, replace=False)])
     X = M.iloc[righe][col].values.astype(float)
     fig = plt.figure(figsize=(4.3, 2.3))
-    ax = fig.add_axes([0.12, 0.08, 0.86, 0.72])
+    ax = fig.add_axes([0.12, 0.13, 0.86, 0.67])
     ax.imshow(X, cmap=matplotlib.colors.ListedColormap(["#eef0f4", "#2f3b4c"]), aspect="auto", interpolation="nearest")
     ax.set_xticks([]); ax.set_yticks([]); ax.grid(False)
     for s in ax.spines.values():
@@ -341,6 +341,7 @@ def s13():
     ax.text(-1.5, 59.5, "uomini", rotation=90, ha="right", va="center", fontsize=10, color=INK2)
     fig.text(0.12, 0.965, "Il file della dimostrazione: solo buchi", fontsize=12, fontweight="bold", color=INK, va="top")
     fig.text(0.12, 0.87, "80 pazienti, 105 colonne · scuro = il dato manca", fontsize=9.8, color=INK2, va="top")
+    nota(fig, "NHANES 2013-2014 · 6.113 adulti")
     salva(fig, "S13_matrice_buchi")
 
 
@@ -579,6 +580,7 @@ def s27():
                bbox_to_anchor=(0.995, 0.8), ncol=2, handlelength=1.4, columnspacing=1.0, fontsize=9.3)
     ax.text(0, -0.07, "← soglia più indulgente", transform=ax.transAxes, fontsize=9.5, color=INK2, va="top")
     ax.text(1, -0.07, "più severa →", transform=ax.transAxes, fontsize=9.5, color=INK2, va="top", ha="right")
+    nota(fig, "Curve teoriche con le frequenze del caso 3")
     salva(fig, "S27_taratura")
     return sa, sb
 
