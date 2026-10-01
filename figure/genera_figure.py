@@ -353,7 +353,7 @@ def f17():
              fontweight="bold", path_effects=ALONE)
     axs.text(2.55, 0.40, "identica nei\ndue gruppi", fontsize=10.5, color=INK, linespacing=1.1, path_effects=ALONE)
     axs.set_title("Trova i malati?")
-    sottotitolo(axs, "Sensibilità: stessa per A e B, a ogni soglia")
+    sottotitolo(axs, "Recall: stessa per A e B, a ogni soglia")
 
     axv.plot(t, vpp(0.20), color=BLU)
     axv.plot(t, vpp(0.05), color=ORO)
@@ -365,7 +365,7 @@ def f17():
     axv.text(-1.1, 0.36, "Gruppo A", fontsize=10.5, color=INK, path_effects=ALONE)
     axv.text(-1.1, 0.135, "Gruppo B", fontsize=10.5, color=INK, path_effects=ALONE)
     axv.set_title("Quando dice positivo, ha ragione?")
-    sottotitolo(axv, "Valore predittivo: diverso a ogni soglia")
+    sottotitolo(axv, "Precision: diversa a ogni soglia")
 
     legenda(fig, [("Gruppo A · malattia nel 20%", BLU), ("Gruppo B · malattia nel 5%", ORO)])
     nota(fig, "Esempio costruito · stesso sistema per i due gruppi, cambia solo quanto è frequente la malattia")

@@ -357,7 +357,7 @@ def qr():
 def s16():
     fig = plt.figure(figsize=(4.4, 3.3))
     titolo_fig(fig, "Tre richieste, tutte ragionevoli", "Ognuna chiede che i due gruppi siano uguali su una misura diversa")
-    voci = [("Trova i malati", "sensibilità"), ("Positivo affidabile", "valore predittivo"),
+    voci = [("Trova i malati", "recall"), ("Positivo affidabile", "precision"),
             ("Rischio veritiero", "calibrazione")]
     for k, (t, s) in enumerate(voci):
         ax = fig.add_axes([0.04 + k * 0.325, 0.12, 0.27, 0.5])
@@ -632,7 +632,7 @@ def s31(seed=8):
     b = np.where(mesi <= 12, 0.85, 0.85 - 0.03 * np.minimum(mesi - 12, 6)) + rng.normal(0, 0.014, 24)
     tutti = 0.85 * a + 0.15 * b
     fig = plt.figure(figsize=(4.5, 3.3))
-    titolo_fig(fig, "Il sistema era equo. Poi", "Sensibilità mese per mese: la media non vede il gruppo B", y=0.965)
+    titolo_fig(fig, "Il sistema era equo. Poi", "Recall mese per mese: la media non vede il gruppo B", y=0.965)
     ax = fig.add_axes([0.12, 0.17, 0.68, 0.56])
     ax.axhline(0.75, color=INK2, lw=1.1, ls=(0, (4, 3)))
     ax.axvline(12.5, color=GRIGIO, lw=1.2)

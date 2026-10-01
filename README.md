@@ -48,7 +48,7 @@ Il percorso della dimostrazione:
 2. La lastra a letto (AP) si fa ai pazienti piu gravi: e AP l'88% delle radiografie con edema, il 35% di quelle senza reperti.
 3. Un modello cerca l'edema guardando solo la proiezione: AUROC 0.756 su pazienti che non ha mai visto; con eta, sesso e apparecchio 0.787.
 4. Per gruppo la scorciatoia rende in modo diverso, e sopra i 70 anni poggia su 34 casi.
-5. Il valore predittivo resta al 4.8%, perche l'edema riguarda il 2.1% delle radiografie.
+5. La precision resta al 4.8%, perche l'edema riguarda il 2.1% delle radiografie.
 
 ## Dati
 
@@ -115,7 +115,7 @@ Verifica su 33.082 radiografie di 9.242 pazienti mai visti in addestramento (691
 | 50-69 anni | 306 | 0.74 |
 | 70 anni e oltre | 34 | 0.69 |
 
-Con proiezione, eta, sesso e apparecchio (`HistGradientBoostingClassifier`, `random_state=0`): 0.787. Valore predittivo della sola proiezione: 4.8%, con l'edema nel 2.1% delle radiografie.
+Con proiezione, eta, sesso e apparecchio (`HistGradientBoostingClassifier`, `random_state=0`): 0.787. Precision della sola proiezione: 4.8%, con l'edema nel 2.1% delle radiografie.
 
 ## Grafici della lezione
 
