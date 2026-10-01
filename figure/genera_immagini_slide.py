@@ -530,6 +530,51 @@ def s24b():
     return righe
 
 
+# ---------------------------------------------------------------- slide 24 ter
+def s24c():
+    """La sola proiezione, gruppo per gruppo: AUROC per l'edema su pazienti mai visti in addestramento, con i casi."""
+    from sklearn.model_selection import GroupShuffleSplit
+    from sklearn.metrics import roc_auc_score
+    d = cxr14()
+    d.columns = ["immagine", "reperti", "controllo_n", "paziente", "eta", "sesso", "proiezione",
+                 "larghezza", "altezza", "pixel_x", "pixel_y"]
+    d["AP"] = (d.proiezione == "AP").astype(int)
+    d["edema"] = d.reperti.str.contains("Edema").astype(int)
+    tr, te = next(GroupShuffleSplit(n_splits=1, test_size=0.3, random_state=0).split(d, groups=d.paziente))
+    B = d.iloc[te]
+    gruppi = [("tutti", B.index == B.index), ("donne", B.sesso == "F"), ("uomini", B.sesso == "M"),
+              ("sotto i 30 anni", B.eta < 30), ("30-49 anni", B.eta.between(30, 49)),
+              ("50-69 anni", B.eta.between(50, 69)), ("70 anni e oltre", B.eta >= 70)]
+    righe = [(n, roc_auc_score(B[m].edema, B[m].AP), int(B[m].edema.sum())) for n, m in gruppi]
+    fig = plt.figure(figsize=(9.0, 3.2))
+    ax = fig.add_axes([0.385, 0.155, 0.585, 0.64])
+    ys = [7, 5.8, 4.8, 3.6, 2.6, 1.6, 0.6]
+    ax.axvline(0.5, color=GRIGIO, lw=1.3, ls=(0, (4, 3)), zorder=1)
+    ax.text(0.507, -0.45, "tirare una moneta", fontsize=10, color=GRIGIO, va="bottom")
+    for yy in (6.4, 4.2):
+        ax.axhline(yy, color="#edece8", lw=1, zorder=0)
+    for (testo, v, n), y in zip(righe, ys):
+        chiave = testo == "70 anni e oltre"
+        forte = chiave or testo == "tutti"
+        ax.plot([0.5, v], [y, y], color="#dcdad4", lw=3.2, solid_capstyle="round", zorder=2)
+        punto(ax, v, y, ORO if chiave else BLU, ms=10, z=4)
+        ax.text(v + 0.013, y, virgola(v, 2), va="center", fontsize=10.5, color=INK, fontweight="bold" if forte else "normal")
+        ax.text(-0.015, y, f"{testo}  ({n} casi)", transform=ax.get_yaxis_transform(), ha="right", va="center",
+                fontsize=10.8, color=INK, fontweight="bold" if forte else "normal")
+    ax.set_xlim(0.45, 1.055); ax.set_ylim(-0.55, 7.55)
+    ax.set_yticks([]); ax.spines["left"].set_visible(False)
+    ax.grid(False); ax.grid(True, axis="x", color="#f1f0ec", lw=0.9)
+    ax.set_xticks([0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
+    ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: virgola(v, 1)))
+    ax.set_xlabel("Capacità di riconoscere l'edema guardando solo la proiezione (AUROC)")
+    fig.text(0.02, 0.955, "La sola proiezione, gruppo per gruppo", fontsize=13, fontweight="bold", color=INK, va="top")
+    fig.text(0.02, 0.88, "Pazienti mai visti in addestramento · fra parentesi i casi di edema su cui poggia il numero",
+             fontsize=10.5, color=INK2, va="top")
+    nota(fig, "NIH ChestX-ray14 · 33.082 radiografie di 9.242 pazienti di verifica", lato="sinistra")
+    salva(fig, "S24C_per_gruppo")
+    return righe
+
+
 # ---------------------------------------------------------------- slide 25
 def s25():
     base = radiografia(512)
@@ -656,6 +701,6 @@ if __name__ == "__main__":
     for lab, v in s09():
         print(f"    S09 {lab}: {v:.3f}")
     print("    S10 media vera {:.1f} dopo {:.1f} mancanti {:.0%}".format(*s10()))
-    s11(); s12(); s13(); qr(); s16(); s20(); s22(); s23(); s24(); s24b(); s25()
+    s11(); s12(); s13(); qr(); s16(); s20(); s22(); s23(); s24(); s24b(); s24c(); s25()
     print("    S27 sensibilita tarata su A {:.2f}, su B {:.2f}".format(*s27()))
     s30(); s31()

@@ -30,7 +30,7 @@ Il percorso della dimostrazione:
 
 Non serve alcuna configurazione: il notebook scarica il dato da questo branch ed e autosufficiente.
 
-**Parte 2, le tre strategie all'opera.** Su una misura reale, la pressione sistolica, il dato viene tolto a circa il 40% dei pazienti in tre modi (MCAR, MAR, MNAR) e si confrontano le strategie delle slide: tenere solo chi ha tutto, stimare il valore mancante da eta e sesso, usare la mancanza come informazione in un modello che passa da un ospedale a un altro.
+**Parte 2, i tre approcci all'opera.** Su una misura reale, la pressione sistolica, il dato viene tolto a circa il 40% dei pazienti in tre modi (MCAR, MAR, MNAR) e si confrontano gli approcci delle slide: tenere solo chi ha tutto, stimare il valore mancante da eta e sesso, usare la mancanza come informazione in un modello che passa da un ospedale a un altro.
 
 ### 2. Senza guardare i polmoni
 
@@ -171,6 +171,7 @@ Il file NHANES del workshop (`figure/dati/NHANES_2013_2014_master.csv`) non e ne
 | `S23_due_centri.png` | 23 | Stesso numero di persone, due popolazioni | NHANES 2013-2014 |
 | `S24_marcatore.png` | 24 | Il marcatore del portatile | ricostruzione su radiografia CC0 |
 | `S24B_lastra_a_letto.png` | 24 bis | Radiografie fatte a letto, per reperto | NIH ChestX-ray14 |
+| `S24C_per_gruppo.png` | 24 ter | La sola proiezione, gruppo per gruppo | NIH ChestX-ray14 |
 | `S25_degradazione.png` | 25 | Etnia riconosciuta su immagini degradate | Gichoya et al., preprint |
 | `S27_taratura.png` | 27 | Una soglia per ogni popolazione | curve teoriche |
 | `S30_aries.png` | 30 | Tumori trovati ogni 1.000 donne, radiologi e IA | ARIES 2025 |
