@@ -6,49 +6,26 @@ Michele Ferramola | 1,5 ore | Modulo 2, Evidence-Based Medicine e Valutazione Me
 
 ---
 
-## Dimostrazioni dal vivo
+## Notebook
 
-Due notebook, entrambi autosufficienti: scaricano da soli i dati e girano in Colab senza configurazione.
+Cinque notebook, un esempio per tipo. Girano in Colab senza configurazione e leggono i dati solo da questo branch: in aula non si scarica nulla da siti esterni. Ogni passo riporta il numero atteso.
 
-### 1. Il dato che manca
+### Dimostrazioni dal vivo
 
-[![Apri in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MicheleFerramola00/lezioni/blob/caf-unilink-m2.4/notebook/mancanza_e_fairness.ipynb)
+| Notebook | Slide | Il messaggio |
+|---|---|---|
+| [Demo LIVE 1 · Un file che contiene solo dati mancanti](https://colab.research.google.com/github/MicheleFerramola00/lezioni/blob/caf-unilink-m2.4/notebook/Demo_LIVE_1_un_file_di_soli_dati_mancanti.ipynb) | «Un file che contiene solo dati mancanti» | La sola mappa di quali dati mancano riconosce il sesso del paziente: AUROC 1,000, e 0,857 anche togliendo ogni colonna con una differenza oltre 10 punti. |
+| [Demo LIVE 2 · Senza guardare i polmoni](https://colab.research.google.com/github/MicheleFerramola00/lezioni/blob/caf-unilink-m2.4/notebook/Demo_LIVE_2_senza_guardare_i_polmoni.ipynb) | «Senza guardare i polmoni» | La sola proiezione della lastra trova l'edema con AUROC 0,756, senza guardare l'immagine. |
 
-`notebook/mancanza_e_fairness.ipynb` | durata in aula: **5 minuti** per la parte 1, **3 minuti** per la parte 2
+Circa 4 minuti ciascuna, una cella alla volta.
 
-Si colloca nel blocco *Gestione dei missing data* e dimostra una cosa sola:
+### Approfondimenti, da rifare a casa
 
-> Il pattern di cio che manca riconosce il paziente, anche quando nessun valore clinico viene usato.
-
-Il percorso della dimostrazione:
-
-1. Si carica una matrice che contiene **solo** `True` e `False`, cioe dove il dato manca. Nessun esito clinico.
-2. Si allena una regressione logistica su quella matrice e le si chiede di indovinare il sesso. AUROC 1.000.
-3. Si accoglie l'obiezione ovvia (gravidanza, prostata, HPV) e si rimuovono tutti i domini sesso-specifici. AUROC 0.988.
-4. Si alza il filtro fino ad eliminare ogni colonna il cui tasso di mancanza differisce fra i sessi piu del 10 per cento. AUROC 0.857.
-5. Si verifica dove vive il segnale: nel laboratorio quasi non c'e (AUROC 0.575). Vive nel questionario, cioe nel **processo**, non nello strumento.
-
-Non serve alcuna configurazione: il notebook scarica il dato da questo branch ed e autosufficiente.
-
-**Parte 2, i tre approcci all'opera.** Su una misura reale, la pressione sistolica, il dato viene tolto a circa il 40% dei pazienti in tre modi (MCAR, MAR, MNAR) e si confrontano gli approcci delle slide: tenere solo chi ha tutto, stimare il valore mancante da eta e sesso, usare la mancanza come informazione in un modello che passa da un ospedale a un altro.
-
-### 2. Senza guardare i polmoni
-
-[![Apri in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/MicheleFerramola00/lezioni/blob/caf-unilink-m2.4/notebook/radiografie_senza_immagini.ipynb)
-
-`notebook/radiografie_senza_immagini.ipynb` | durata in aula: **5 minuti**
-
-Si colloca nel caso 2 dei casi studio, *Le condizioni di acquisizione*, e dimostra una cosa sola:
-
-> Il modo in cui e stata fatta la radiografia riconosce il reperto, senza guardare l'immagine.
-
-Il percorso della dimostrazione:
-
-1. Si caricano i metadati di NIH ChestX-ray14 (112.120 radiografie, 30.805 pazienti): eta, sesso, proiezione, dimensioni e risoluzione dell'immagine. Nessuna immagine.
-2. La lastra a letto (AP) si fa ai pazienti piu gravi: e AP l'88% delle radiografie con edema, il 35% di quelle senza reperti.
-3. Un modello cerca l'edema guardando solo la proiezione: AUROC 0.756 su pazienti che non ha mai visto; con eta, sesso e apparecchio 0.787.
-4. Per gruppo la scorciatoia rende in modo diverso, e sopra i 70 anni poggia su 34 casi.
-5. La precision resta al 4.8%, perche l'edema riguarda il 2.1% delle radiografie.
+| Notebook | Slide | Il messaggio |
+|---|---|---|
+| [Approfondimento 1 · I tre approcci ai dati mancanti](https://colab.research.google.com/github/MicheleFerramola00/lezioni/blob/caf-unilink-m2.4/notebook/Approfondimento_1_tre_approcci_ai_dati_mancanti.ipynb) | Approcci 1, 2 e 3 | Ogni approccio regge sotto un'ipotesi precisa su perché il dato manca. |
+| [Approfondimento 2 · Stessa soglia, malattia più o meno frequente](https://colab.research.google.com/github/MicheleFerramola00/lezioni/blob/caf-unilink-m2.4/notebook/Approfondimento_2_stessa_soglia_prevalenze_diverse.ipynb) | «Non possono valere tutte e tre insieme», «Stesso modello, stessa soglia, due risultati» | Recall e specificity uguali, precision 67% contro 30%. |
+| [Approfondimento 3 · Poche donne nei dati](https://colab.research.google.com/github/MicheleFerramola00/lezioni/blob/caf-unilink-m2.4/notebook/Approfondimento_3_poche_donne_nei_dati.ipynb) | «Prima prova: poche donne nei dati» | L'AUROC resta fermo, il rischio delle donne viene sottostimato. |
 
 ## Dati
 
@@ -62,13 +39,21 @@ Il file contiene **esclusivamente** la maschera di mancanza (`True` se il valore
 
 Gli stessi adulti, nello stesso ordine, con pochi valori clinici per la parte 2 della dimostrazione: eta, sesso, pressione sistolica (media delle letture), BMI, glicemia, HbA1c, diabete dichiarato. NHANES e di pubblico dominio.
 
-**NIH ChestX-ray14** (NIH Clinical Center, https://nihcc.app.box.com/v/ChestXray-NIHCC): il notebook sulle radiografie scarica solo il file dei metadati, `Data_Entry_2017_v2020.csv`, da una copia pubblica su Hugging Face. Uso libero citando Wang X. et al., *ChestX-ray8*, IEEE CVPR 2017.
+`dati/artrite_nhanes_adulti.parquet` | 5.507 righe, 4 colonne
+
+Adulti NHANES dai 20 anni con artrite dichiarata, sesso, età e BMI, per l'approfondimento 3.
+
+`dati/radiografie_nih_metadati.parquet` | 0,7 MB | 112.120 righe
+
+**NIH ChestX-ray14** (NIH Clinical Center, https://nihcc.app.box.com/v/ChestXray-NIHCC), solo metadati, nessuna immagine: paziente, età, sesso, proiezione (a letto o in piedi), dimensioni e risoluzione dell'immagine, cinque reperti. Ridotto dal file `Data_Entry_2017_v2020.csv`. Uso libero citando Wang X. et al., *ChestX-ray8*, IEEE CVPR 2017.
+
+I due file ridotti si rigenerano con `python dati/prepara_dati_notebook.py`.
 
 Il dato grezzo di partenza dei due file NHANES proviene dal repository pubblico [oliviariccomi/gender-bias-analysis](https://github.com/oliviariccomi/gender-bias-analysis), a sua volta costruito sui file pubblici NHANES dei CDC.
 
 ## Risultati attesi
 
-### Il dato che manca, parte 1
+### Demo LIVE 1
 
 | Cosa viene rimosso | Colonne usate | AUROC |
 |---|---|---|
@@ -82,7 +67,7 @@ Il dato grezzo di partenza dei due file NHANES proviene dal repository pubblico 
 
 Valori ottenuti con `random_state=42` e ripartizione 70/30 stratificata.
 
-### Il dato che manca, parte 2
+### Approfondimento 1
 
 Errore sulla media della pressione sistolica (vera: 122.7 mmHg su 5.712 adulti), in mmHg:
 
@@ -101,7 +86,7 @@ Riconoscere il diabete con un modello allenato nell'ospedale A (AUROC):
 
 Nell'ospedale A la glicemia si chiede a chi e sospetto di diabete, nel B a tutti sopra i 50 anni. Tutto con `numpy.random.default_rng(0)`.
 
-### Senza guardare i polmoni
+### Demo LIVE 2
 
 Verifica su 33.082 radiografie di 9.242 pazienti mai visti in addestramento (691 con edema), `GroupShuffleSplit(test_size=0.3, random_state=0)`:
 
