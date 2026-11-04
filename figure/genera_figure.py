@@ -313,7 +313,7 @@ def f13():
     ax.set_xticks([0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
     ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: virgola(v, 1)))
     ax.set_xlabel("Capacità di riconoscere il sesso (AUROC)")
-    fig.text(0.02, 0.955, "Quanto bisogna mutilare il dato prima che il segnale sparisca",
+    fig.text(0.02, 0.955, "Quante colonne bisogna togliere prima che il segnale sparisca",
              fontsize=13, fontweight="bold", color=INK, va="top")
     fig.text(0.02, 0.88, "Il modello vede solo quali celle sono vuote, mai un valore clinico",
              fontsize=10.5, color=INK2, va="top")
