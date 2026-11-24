@@ -153,7 +153,7 @@ def mappe():
 
 # ---------------------------------------------------------------- slide 6 bis
 def s06b():
-    """Il gruppo sanguigno e chi lo ha misurato: numeri illustrativi, gli stessi del workshop Sanidays."""
+    """Il gruppo sanguigno e chi lo ha misurato: numeri illustrativi."""
     fasce = ["18-29 anni", "30-49 anni", "50-69 anni", "70 e oltre"]
     pannelli = (("Nella popolazione", "quota con gruppo 0", {"uomini": [45] * 4, "donne": [45] * 4}),
                 ("Nel dataset", "quota con il gruppo sanguigno registrato",

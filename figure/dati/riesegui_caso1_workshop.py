@@ -1,9 +1,9 @@
 # Uso: python riesegui_caso1_workshop.py   (da questa cartella; circa 2 minuti, serve xgboost)
 #
-# Riesegue il caso 1 del workshop (notebook Fase_3_4 del repository pubblico
-# oliviariccomi/gender-bias-analysis) aggiungendo l'intercetta di calibrazione
+# Riesegue il caso 1 del notebook Fase_3_4_Modelli_Performance_Gap del repository
+# pubblico oliviariccomi/gender-bias-analysis, aggiungendo l'intercetta di calibrazione
 # standard (pendenza fissata a 1) accanto a quella del notebook (pendenza
-# libera), piu la pendenza. Produce i due CSV usati da genera_figure.py per F21.
+# libera), più la pendenza. Produce i due CSV usati da genera_figure.py per F21.
 import json, os, time, urllib.request
 import numpy as np, pandas as pd
 import matplotlib

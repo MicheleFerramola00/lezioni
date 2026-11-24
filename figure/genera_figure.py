@@ -1,9 +1,9 @@
 """Grafici del modulo 2.4 (CAF GIAS): bias algoritmico e fairness.
 
 Uso:  python genera_figure.py [cartella_output]
-Genera sei PNG a 300 dpi, gia dimensionati per le slide (10 x 5,63 pollici).
-Colori verificati con il validatore di accessibilita: blu #2a78d6 e oro
-#b07a0a passano i controlli per chi ha difetti nella visione dei colori.
+Genera sei PNG a 300 dpi, già dimensionati per le slide (10 x 5,63 pollici).
+Colori: blu #2a78d6 e oro #b07a0a, distinguibili anche da chi ha difetti
+nella visione dei colori.
 """
 import sys
 from pathlib import Path
@@ -23,8 +23,8 @@ QUI = Path(__file__).parent
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else QUI
 OUT.mkdir(parents=True, exist_ok=True)
 
-BLU, ORO = "#2a78d6", "#b07a0a"          # identita dei due gruppi: oro = dove sta il problema
-GRIGIO, GRIGIO_CH = "#9a9892", "#e6e5e1"  # riferimenti e verita
+BLU, ORO = "#2a78d6", "#b07a0a"          # identità dei due gruppi: oro = dove sta il problema
+GRIGIO, GRIGIO_CH = "#9a9892", "#e6e5e1"  # riferimenti e verità
 INK, INK2, ASSE = "#1a1a19", "#52514e", "#cfcdc6"
 
 matplotlib.rcParams.update({
@@ -211,7 +211,7 @@ def dati_f7(seed=3, n=10000, quota=0.40):
     eta = rng.uniform(20, 80, n)
     val = 100 + 0.5 * (eta - 50) + rng.normal(0, 12, n)
 
-    def tara(score):                                   # sposta la costante finche ne manca il 40%
+    def tara(score):                                   # sposta la costante finché ne manca il 40%
         a = 0.0
         for _ in range(80):
             a -= (sig(a + score).mean() - quota) * 4
@@ -222,7 +222,7 @@ def dati_f7(seed=3, n=10000, quota=0.40):
         "noto": tara(-2.0 * (eta - 50) / 17),          # mancano soprattutto i giovani
         "diverso": tara(1.5 * (val - 100) / 15),        # mancano soprattutto i valori alti
     }
-    fasce = np.digitize(eta, np.linspace(20, 80, 13)[1:-1])   # media per fascia d'eta, pesata sulla popolazione
+    fasce = np.digitize(eta, np.linspace(20, 80, 13)[1:-1])   # media per fascia d'età, pesata sulla popolazione
     corretta = sum((fasce == k).mean() * val[(fasce == k) & ~manca["noto"]].mean() for k in np.unique(fasce))
     return val, manca, corretta
 
@@ -323,8 +323,8 @@ def f13():
 
 # ---------------------------------------------------------------- F17
 def f17():
-    """L'impossibilita in una figura. Slide intera."""
-    mu, soglia = 2.1232, 1.2816                        # sensibilita 80%, specificita 90% alla soglia dell'esempio
+    """L'impossibilità in una figura. Slide intera."""
+    mu, soglia = 2.1232, 1.2816                        # sensibilità 80%, specificità 90% alla soglia dell'esempio
     t = np.linspace(-1.2, 3.6, 500)
     sens, fpr = 1 - norm.cdf(t - mu), 1 - norm.cdf(t)
     vpp = lambda prev: sens * prev / (sens * prev + fpr * (1 - prev))
@@ -375,7 +375,7 @@ def f17():
 
 # ---------------------------------------------------------------- F21
 def f21():
-    """AUROC fermo, calibrazione in movimento. Dati reali del workshop, rieseguiti."""
+    """AUROC fermo, calibrazione in movimento. Dati reali, ricalcolati con dati/riesegui_caso1_workshop.py."""
     df = pd.read_csv(QUI / "dati" / "rerun_1c_xgboost_artrite.csv")
     ordine = ["S0_50-50", "S1_30-70", "S2_15-85", "S3_5-95"]
     etich = ["50%", "30%", "15%", "5%"]

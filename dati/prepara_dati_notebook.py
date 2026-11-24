@@ -1,4 +1,4 @@
-# Prepara i due file ridotti letti dai notebook, così in aula non si scarica nulla da siti esterni.
+# Prepara i due file ridotti letti dai notebook, così i notebook non scaricano nulla da siti esterni.
 # Uso: python dati/prepara_dati_notebook.py   (dalla radice del repo; legge i file già scaricati in figure/dati)
 from pathlib import Path
 
