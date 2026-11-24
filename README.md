@@ -1,17 +1,11 @@
 # lezioni
 
-Materiali didattici per lezioni e interventi formativi.
+Materiali didattici per lezioni e interventi formativi: slide, notebook e dati.
 
-Il branch `main` contiene solo questo indice. **Ogni occasione formativa vive in un branch dedicato**, con i propri dati, notebook e note.
+Ogni lezione ha la sua pagina, con le istruzioni:
 
-## Occasioni
+| Lezione | Contenuto |
+|---|---|
+| [CAF GIAS, Università degli Studi Link, modulo 2.4](../../tree/caf-unilink-m2.4) | Bias algoritmico e fairness: gestione dei missing data e casi studio nell'imaging diagnostico |
 
-| Branch | Occasione | Contenuto |
-|---|---|---|
-| [`caf-unilink-m2.4`](../../tree/caf-unilink-m2.4) | CAF GIAS, Universita degli Studi Link, modulo 2.4 | Bias algoritmico e fairness: gestione dei missing data e casi studio nell'imaging diagnostico |
-
-## Convenzioni
-
-- Un branch per occasione, mai cartelle dentro `main`.
-- Ogni branch ha un proprio `README.md` con il contesto della lezione e le istruzioni per eseguire le dimostrazioni.
-- I dati pubblicati sono sempre derivati e non contengono informazioni cliniche individuali.
+I dati sono tutti di fonte pubblica e anonimizzati.
