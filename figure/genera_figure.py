@@ -286,7 +286,6 @@ F13_RIGHE = [
     ("Senza colonne con differenza oltre 10 punti", 0.857),
     ("Senza colonne con differenza oltre 5 punti", 0.732),
     ("Senza colonne con differenza oltre 2 punti", 0.586),
-    ("Solo laboratorio ed esame fisico", 0.575),
 ]
 
 
@@ -294,10 +293,9 @@ def f13():
     """La scala della dimostrazione. Slide intera."""
     fig = plt.figure(figsize=(9.0, 3.2))
     ax = fig.add_axes([0.385, 0.155, 0.585, 0.64])
-    ys = [7, 6, 5, 4, 3, 2, 0.6]
+    ys = [7, 6, 5, 4, 3, 2]
     ax.axvline(0.5, color=GRIGIO, lw=1.3, ls=(0, (4, 3)), zorder=1)
-    ax.text(0.507, -0.45, "tirare una moneta", fontsize=10, color=GRIGIO, va="bottom")
-    ax.axhline(1.3, color="#edece8", lw=1, zorder=0)
+    ax.text(0.507, 1.1, "tirare una moneta", fontsize=10, color=GRIGIO, va="bottom")
     for (testo, v), y in zip(F13_RIGHE, ys):
         chiave = "10 punti" in testo
         c = ORO if chiave else BLU
@@ -307,7 +305,7 @@ def f13():
                 fontweight="bold" if chiave else "normal")
         ax.text(-0.015, y, testo, transform=ax.get_yaxis_transform(), ha="right", va="center",
                 fontsize=10.8, color=INK, fontweight="bold" if chiave else "normal")
-    ax.set_xlim(0.45, 1.055); ax.set_ylim(-0.55, 7.55)
+    ax.set_xlim(0.45, 1.055); ax.set_ylim(1.0, 7.55)
     ax.set_yticks([]); ax.spines["left"].set_visible(False)
     ax.grid(False); ax.grid(True, axis="x", color="#f1f0ec", lw=0.9)
     ax.set_xticks([0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
