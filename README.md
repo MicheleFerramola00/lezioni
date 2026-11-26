@@ -8,7 +8,7 @@ Michele Ferramola | 1,5 ore | Modulo 2, Evidence-Based Medicine e Valutazione Me
 
 ## Slide
 
-Le slide della lezione, con le note del presentatore: [M2.4_Ferramola_slide.pptx](slide/M2.4_Ferramola_slide.pptx) (PowerPoint, circa 10 MB).
+Le slide della lezione: [in PDF](slide/M2.4_Ferramola_slide.pdf), da leggere nel browser, oppure [in PowerPoint](slide/M2.4_Ferramola_slide.pptx), con le note del presentatore (circa 8 MB).
 
 ## Notebook
 
